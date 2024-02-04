@@ -1,6 +1,7 @@
 import process, { stdin, stdout, exit, cwd, chdir } from 'node:process';
 import { homedir } from 'node:os';
 import { UserService } from './services/UserService.js';
+import { AppController } from './controller/AppController.js';
 
 const userService = new UserService();
 userService.init();
@@ -8,9 +9,13 @@ userService.init();
 chdir(homedir());
 showCurrentDir();
 
+const appController = new AppController();
+
 stdin.on('data', (data) => {
   const dataStr = data.toString().trim();
-  console.log('dataStr=', dataStr);
+  // console.log('dataStr=', dataStr);
+  appController.execute(dataStr);
+  showCurrentDir();
 })
 
 process.on('SIGINT', finishListen);
