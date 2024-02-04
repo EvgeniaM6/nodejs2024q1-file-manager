@@ -1,1 +1,25 @@
-console.log('hello');
+import process, { stdin, stdout, exit, cwd, chdir } from 'node:process';
+import { homedir } from 'node:os';
+import { UserService } from './services/UserService.js';
+
+const userService = new UserService();
+userService.init();
+
+chdir(homedir());
+showCurrentDir();
+
+stdin.on('data', (data) => {
+  const dataStr = data.toString().trim();
+  console.log('dataStr=', dataStr);
+})
+
+process.on('SIGINT', finishListen);
+
+function finishListen() {
+  stdout.write(`Thank you for using File Manager, ${userService.userName}, goodbye!`);
+  exit();
+}
+
+function showCurrentDir() {
+  stdout.write(`You are currently in ${cwd()}\n`);
+}
