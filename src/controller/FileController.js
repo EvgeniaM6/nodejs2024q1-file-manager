@@ -12,7 +12,7 @@ export class FileController {
     if (err) this.showFailing();
   }
 
-  readFileContent(path) {
+  readFileContent([path]) {
     if (!path) {
       this.showFailing();
       return;
@@ -35,7 +35,7 @@ export class FileController {
     })
   }
 
-  addNewFile(fileName) {
+  addNewFile([fileName]) {
     if (!fileName) {
       this.showFailing();
       return;
@@ -44,7 +44,7 @@ export class FileController {
     appendFile(join(cwd(), fileName), '', this.handleErr.bind(this));
   }
 
-  renameFile(path, newFileName) {
+  renameFile([path, newFileName]) {
     if (!path || !newFileName) {
       this.showFailing();
       return;
@@ -63,7 +63,7 @@ export class FileController {
     return [path, fileName];
   }
 
-  async copyFile(oldPath, newDirPath) {
+  async copyFile([oldPath, newDirPath]) {
     if (!oldPath || !newDirPath) {
       this.showFailing();
       return;
@@ -120,7 +120,7 @@ export class FileController {
     readStream.on('end', () => true);
   }
 
-  removeFile(path) {
+  removeFile([path]) {
     if (!path) {
       this.showFailing();
       return;
@@ -130,7 +130,7 @@ export class FileController {
     rm(pathFull, { recursive: true }, this.handleErr.bind(this));
   }
 
-  async moveFile(filePath, newDirPath) {
+  async moveFile([filePath, newDirPath]) {
     if (!filePath || !newDirPath) {
       this.showFailing();
       return;
