@@ -1,10 +1,12 @@
 import { stdout } from 'node:process';
 import { NavController } from './NavController.js';
 import { FileController } from './FileController.js';
+import { OsController } from './OsController.js';
 
 export class AppController {
   navController = new NavController();
   fileController = new FileController();
+  osController = new OsController();
 
   operations = {
     up: this.navController.changeDir.bind(this.navController),
@@ -16,6 +18,7 @@ export class AppController {
     cp: this.fileController.copyFile.bind(this.fileController),
     mv: this.fileController.moveFile.bind(this.fileController),
     rm: this.fileController.removeFile.bind(this.fileController),
+    os: this.osController.executeOsOperation.bind(this.osController),
   };
 
   async execute(dataStr) {
@@ -26,7 +29,8 @@ export class AppController {
       return;
     }
 
-    const [arg1, arg2] = argsArr;
-    await this.operations[operation](arg1, arg2);
+    // const [arg1, arg2] = argsArr;
+    // await this.operations[operation](arg1, arg2);
+    await this.operations[operation](argsArr);
   }
 }
