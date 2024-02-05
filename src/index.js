@@ -11,10 +11,9 @@ showCurrentDir();
 
 const appController = new AppController();
 
-stdin.on('data', (data) => {
+stdin.on('data', async (data) => {
   const dataStr = data.toString().trim();
-  // console.log('dataStr=', dataStr);
-  appController.execute(dataStr);
+  await appController.execute(dataStr);
   showCurrentDir();
 })
 
