@@ -2,11 +2,13 @@ import { stdout } from 'node:process';
 import { NavController } from './NavController.js';
 import { FileController } from './FileController.js';
 import { OsController } from './OsController.js';
+import { HashController } from './HashController.js';
 
 export class AppController {
   navController = new NavController();
   fileController = new FileController();
   osController = new OsController();
+  hashController = new HashController();
 
   operations = {
     up: this.navController.changeDir.bind(this.navController),
@@ -19,6 +21,7 @@ export class AppController {
     mv: this.fileController.moveFile.bind(this.fileController),
     rm: this.fileController.removeFile.bind(this.fileController),
     os: this.osController.executeOsOperation.bind(this.osController),
+    hash: this.hashController.printFileHash.bind(this.hashController),
   };
 
   async execute(dataStr) {
@@ -29,8 +32,6 @@ export class AppController {
       return;
     }
 
-    // const [arg1, arg2] = argsArr;
-    // await this.operations[operation](arg1, arg2);
     await this.operations[operation](argsArr);
   }
 }
