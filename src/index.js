@@ -1,5 +1,6 @@
-import process, { stdin, stdout, exit, cwd, chdir } from 'node:process';
+import process, { stdin, stdout, cwd, chdir } from 'node:process';
 import { homedir } from 'node:os';
+import { finishListen } from './utils/finishListen.js';
 import { UserService } from './services/UserService.js';
 import { AppController } from './controller/AppController.js';
 
@@ -9,7 +10,7 @@ userService.init();
 chdir(homedir());
 showCurrentDir();
 
-const appController = new AppController();
+const appController = new AppController(userService.userName);
 
 stdin.on('data', async (data) => {
   const dataStr = data.toString().trim();
@@ -17,12 +18,7 @@ stdin.on('data', async (data) => {
   showCurrentDir();
 })
 
-process.on('SIGINT', finishListen);
-
-function finishListen() {
-  stdout.write(`Thank you for using File Manager, ${userService.userName}, goodbye!`);
-  exit();
-}
+process.on('SIGINT', () => finishListen(userService.userName));
 
 function showCurrentDir() {
   stdout.write(`You are currently in ${cwd()}\n`);

@@ -1,4 +1,5 @@
 import { stdout } from 'node:process';
+import { finishListen } from '../utils/finishListen.js';
 import { NavController } from './NavController.js';
 import { FileController } from './FileController.js';
 import { OsController } from './OsController.js';
@@ -6,6 +7,7 @@ import { HashController } from './HashController.js';
 import { CompressController } from './CompressController.js';
 
 export class AppController {
+  userName = '';
   navController = new NavController();
   fileController = new FileController();
   osController = new OsController();
@@ -13,6 +15,7 @@ export class AppController {
   compressController = new CompressController();
 
   operations = {
+    '.exit': () => finishListen(this.userName),
     up: this.navController.changeDir.bind(this.navController),
     cd: this.navController.changeDir.bind(this.navController),
     ls: this.navController.printList.bind(this.navController),
@@ -27,6 +30,10 @@ export class AppController {
     compress: this.compressController.compress.bind(this.compressController),
     decompress: this.compressController.decompress.bind(this.compressController),
   };
+
+  constructor(userName) {
+    this.userName = userName;
+  }
 
   async execute(dataStr) {
     const [operation, ...argsArr] = dataStr.split(' ');
