@@ -3,12 +3,14 @@ import { NavController } from './NavController.js';
 import { FileController } from './FileController.js';
 import { OsController } from './OsController.js';
 import { HashController } from './HashController.js';
+import { CompressController } from './CompressController.js';
 
 export class AppController {
   navController = new NavController();
   fileController = new FileController();
   osController = new OsController();
   hashController = new HashController();
+  compressController = new CompressController();
 
   operations = {
     up: this.navController.changeDir.bind(this.navController),
@@ -22,6 +24,8 @@ export class AppController {
     rm: this.fileController.removeFile.bind(this.fileController),
     os: this.osController.executeOsOperation.bind(this.osController),
     hash: this.hashController.printFileHash.bind(this.hashController),
+    compress: this.compressController.compress.bind(this.compressController),
+    decompress: this.compressController.decompress.bind(this.compressController),
   };
 
   async execute(dataStr) {
